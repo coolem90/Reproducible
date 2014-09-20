@@ -51,14 +51,14 @@ For this part of the assignment, ignoring the missing valuesis acceptable in the
 
 -1.Calculate and report the mean total number of steps taken per day
 
-```{r}
+```{r,echo = TRUE }
 mean_stpe_per_day<-aggregate(steps ~ date, data = data, mean)
 mean_stpe_per_day
 ```
 
 
 -2.Make a plot of the total number of steps taken each day
-```{r}
+```{r,echo = TRUE}
 with(mean_stpe_per_day,plot(date, steps, type = "l",xlab = "Date", ylab = "Steps",
                        main='The mean total number of steps taken per day') )
 ```
@@ -67,14 +67,14 @@ with(mean_stpe_per_day,plot(date, steps, type = "l",xlab = "Date", ylab = "Steps
 ##What is the average daily activity pattern?
 
 1.Make a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
-```{r}
+```{r,echo = TRUE}
 mean_stpe_per_time<-aggregate(steps ~ interval, data = data, mean)
 with(mean_stpe_per_time,plot(interval, steps, type = "l",xlab = "5-minute interval", ylab = "Steps",
                             main='The mean total number of steps taken') )
 ```
 
 2.Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
-```{r}
+```{r,echo = TRUE}
 max_stpe_per_day<-aggregate(steps ~ date, data = data, max)
 max_stpe_per_time<- merge(max_stpe_per_day,data,by=c("date","steps"),all.x = TRUE)
 max_stpe_per_time<-cbind(max_stpe_per_time[1],max_stpe_per_time[3],max_stpe_per_time[2])
@@ -86,7 +86,7 @@ max_stpe_per_time
 Note that there are a number of days/intervals where there are missing values (coded as NA). The presence of missing days may introduce bias into some calculations or summaries of the data.
 
 1.Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
-```{r}
+```{r,echo = TRUE}
 library(plyr)
 total_NA<-count(data[is.na(data$steps),] , vars ='steps')
 total_NA
@@ -94,7 +94,7 @@ total_NA
 
 2.Create a new dataset that is equal to the original dataset but with the missing data filled in.
 
-```{r}
+```{r,echo = TRUE}
 newdata<-cbind(data,newsetps=ifelse(is.na(data$steps),0,data$steps))
 
 ```
@@ -103,7 +103,7 @@ newdata<-cbind(data,newsetps=ifelse(is.na(data$steps),0,data$steps))
 3.Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. How is the impact of imputing missing data on the estimates of the total daily number of steps?
 
 
-```{r}
+```{r,echo = TRUE}
 mean_stpe_per_date_newdata<-aggregate(newsetps ~ date, data = newdata, mean)
 with(mean_stpe_per_date_newdata,plot(date, newsetps, type = "l",xlab = "Date", ylab = "Steps",
                              main='The mean total number of steps taken',
@@ -113,7 +113,7 @@ with(mean_stpe_per_date_newdata,plot(date, newsetps, type = "l",xlab = "Date", y
 
 4.Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day. How is the impact of imputing missing data on the estimates of the 5-minute interval number of steps?
 
-```{r}
+```{r,echo = TRUE}
 mean_stpe_per_time_newdata<-aggregate(newsetps ~ interval, data = newdata, mean)
 with(mean_stpe_per_time_newdata,plot(interval, newsetps, type = "l",xlab = "5-minute interval", ylab = "Steps",
                              main='The mean total number of steps taken',
@@ -122,7 +122,7 @@ with(mean_stpe_per_time_newdata,plot(interval, newsetps, type = "l",xlab = "5-mi
 
 5.Do these values differ from the estimates from the first part of the assignment?
 
-```{r}
+```{r,echo = TRUE}
 par(mfrow = c(2, 2))
 with(mean_stpe_per_day,plot(date, steps, type = "l",main='Total number of steps taken per day') )
 with(mean_stpe_per_date_newdata,plot(date, newsetps, type = "l",xlab = "Date", ylab = "Steps",
@@ -141,7 +141,7 @@ For this part the weekdays() function may be of some help here. Use the dataset 
 
 1.Create a new variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.
 
-```{r}
+```{r,echo = TRUE}
 library("data.table")
 library("lattice")
 Sys.setlocale("LC_TIME", "English")
@@ -155,7 +155,7 @@ summary(wkdb)
 
 2.Make a panel plot containing a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
 
-```{r}
+```{r,echo = TRUE}
 library(ggplot2)
 qplot(interval,steps,data=wkdb,facets=.~wkgroup,main='The mean total number of steps taken')
 ```
